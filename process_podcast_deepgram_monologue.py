@@ -38,21 +38,15 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--keep_low_conf", action="store_true", help="Keep all utterances with low confidence transcripts",
+    "--keep_low_conf", action="store_true", help="THIS ARGUMENT IS NOT USED! Keep all utterances with low confidence transcripts",
 )
 parser.add_argument(
-    "--remove_noises", action="store_true", help="Removes transcripted noises such as [laughter].",
+    "--remove_noises", action="store_true", help="THIS ARGUMENT IS NOT USED! Removes transcripted noises such as [laughter].",
 )
 parser.add_argument(
-    "--noises_to_emoji", action="store_true", help="Converts transcripts for noises to an emoji character.",
+    "--noises_to_emoji", action="store_true", help="THIS ARGUMENT IS NOT USED! Converts transcripts for noises to an emoji character.",
 )
 args = parser.parse_args()
-
-# Total number of files before segmenting, and train/val/test splits
-NUM_FILES = 5850 + 5849
-TRAIN_END_IDX = int(NUM_FILES )
-VAL_END_IDX = int(NUM_FILES )
-
 
 def __write_sample(dest, file_id, count, file_count, sample_rate, audio, transcript, first_spk = None):
     """
@@ -395,22 +389,6 @@ def main():
     print("adjust_boundary", adjust_boundary)
 
     max_conversation_duration = args.max_conversation_duration
-
-    print(f"Expected number of files to segment: {NUM_FILES}")
-    print("With a 100/0/0 split:")
-    print(f"Number of training files: {TRAIN_END_IDX}")
-    print(f"Number of validation files: {VAL_END_IDX - TRAIN_END_IDX}")
-    print(f"Number of test files: {NUM_FILES - VAL_END_IDX}")
-
-    if not os.path.exists(os.path.join(dest_root, 'train/')):
-        os.makedirs(os.path.join(dest_root, 'train/'))
-        os.makedirs(os.path.join(dest_root, 'val/'))
-        os.makedirs(os.path.join(dest_root, 'test/'))
-    else:
-        # Wipe manifest contents first
-        open(os.path.join(dest_root, "manifest_train.json"), 'w').close()
-        open(os.path.join(dest_root, "manifest_val.json"), 'w').close()
-        open(os.path.join(dest_root, "manifest_test.json"), 'w').close()
 
     file_count = 0
 
